@@ -1,6 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('../prismaClient');
 
-const prisma = new PrismaClient();
 
 const getJobs = async (req, res) => {
   try {
