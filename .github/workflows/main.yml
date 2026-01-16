@@ -1,16 +1,19 @@
-name: My First Workflow
+name: Build App
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  run:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Run a command
-        run: echo "GitHub Actions is working!"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - run: npm install
+      - run: npm run build
