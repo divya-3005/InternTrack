@@ -15,8 +15,9 @@ jobs:
         with:
           node-version: 18
 
-      - run: npm install
-        working-directory: client
+      - name: install dependencies
+        run: npm install
 
-      - run: npm run build
+      - name: build
+        run: npm run build
         working-directory: client
