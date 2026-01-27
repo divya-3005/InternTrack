@@ -1,38 +1,54 @@
-name: Full Stack CI
+name: CI Pipeline
 
 on:
   push:
-    branches: ["main"]
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  build-test:
+  frontend:
+    name: Frontend (Client)
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # Frontend
-      - name: Install client dependencies
+      - name: Install frontend dependencies
         run: npm install
         working-directory: client
 
-      - name: Test client
-        run: npm test
+      - name: Run frontend tests
+        run: npm test --if-present
         working-directory: client
 
-      - name: Build client
-        run: npm run build
+      - name: Build frontend
+        run: npm run build --if-present
         working-directory: client
 
-      # Backend
-      - name: Install server dependencies
+  backend:
+    name: Backend (Server)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install backend dependencies
         run: npm install
         working-directory: server
 
-      - name: Test server
-        run: npm test
+      - name: Run backend tests
+        run: npm test --if-present
         working-directory: server
